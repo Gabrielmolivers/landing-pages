@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imobiliária</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #f4f7fb;
+            --panel: #ffffff;
+            --primary: #0ea5e9;
+            --secondary: #0f766e;
+            --text: #0f172a;
+            --muted: #475569;
+        }
+        body { font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        a { text-decoration: none; }
+        .container { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+
+        nav { position: sticky; top: 0; z-index: 30; background: #ffffffee; backdrop-filter: blur(8px); border-bottom: 1px solid rgba(14,165,233,0.15); }
+        nav .inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
+        nav .logo { display: flex; gap: 10px; align-items: center; font-weight: 800; color: var(--primary); letter-spacing: .4px; }
+        nav ul { list-style: none; display: flex; gap: 18px; }
+        nav a { color: var(--muted); font-weight: 700; padding: 8px 10px; border-radius: 8px; }
+        nav a.active, nav a:hover { background: var(--primary); color: #fff; }
+
+        .hero { position: relative; padding: 120px 0 110px; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; inset: 0; background: url('assets/images/casa%20na%20mao.jpg') center/cover no-repeat; filter: brightness(0.7); }
+        .hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(14,165,233,0.65), rgba(15,118,110,0.65)); }
+        .hero .content { position: relative; z-index: 1; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 26px; align-items: center; color: #fff; }
+        .hero h1 { font-size: clamp(2.5rem, 4vw, 3.4rem); line-height: 1.1; margin-bottom: 14px; }
+        .hero p { color: #e2e8f0; margin-bottom: 18px; }
+        .chips { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+        .chip { background: rgba(15,118,110,0.35); border: 1px solid rgba(255,255,255,0.25); color: #fff; padding: 8px 12px; border-radius: 12px; font-weight: 700; }
+        .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 18px; border-radius: 12px; border: 1px solid transparent; font-weight: 800; cursor: pointer; }
+        .btn-primary { background: #fff; color: var(--primary); }
+        .btn-ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,0.5); }
+
+        .panel { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 16px; padding: 18px; backdrop-filter: blur(6px); }
+        .mini-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
+        .mini { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 12px; color: #fff; }
+        .mini h3 { margin-bottom: 4px; }
+
+        section { padding: 80px 0; }
+        .section-head { text-align: center; margin-bottom: 24px; }
+        .section-head h2 { font-size: 2rem; color: var(--text); }
+        .section-head p { color: var(--muted); }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+        .card { background: var(--panel); border: 1px solid rgba(14,165,233,0.12); border-radius: 14px; padding: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: transform 0.2s ease; }
+        .card:hover { transform: translateY(-6px); }
+        .card h3 { color: var(--secondary); margin-bottom: 6px; }
+        .card p { color: var(--muted); }
+
+        .cards-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 16px; margin-top: 16px; }
+        .property { border: 1px solid rgba(14,165,233,0.12); border-radius: 14px; overflow: hidden; background: #fff; box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+        .property img { width: 100%; height: 200px; object-fit: cover; }
+        .property .body { padding: 14px; }
+        .property h3 { color: var(--text); margin-bottom: 4px; }
+        .property p { color: var(--muted); }
+
+        .sobre { background: linear-gradient(135deg, #e0f2fe 0%, #ecfeff 100%); }
+        .sobre-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
+        .sobre img { width: 100%; border-radius: 14px; border: 1px solid rgba(14,165,233,0.12); box-shadow: 0 16px 40px rgba(0,0,0,0.15); }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 12px; margin-top: 12px; }
+        .stat { background: #fff; border: 1px solid rgba(14,165,233,0.12); border-radius: 12px; padding: 12px; text-align: center; }
+        .stat .number { font-size: 2rem; color: var(--primary); font-weight: 900; }
+        .stat .label { color: var(--muted); font-size: 0.95rem; }
+
+        .contato { background: #0f172a; color: #fff; }
+        .contato .section-head h2 { color: #fff; }
+        .contato .section-head p { color: #cbd5e1; }
+        .contato-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 14px; margin-top: 18px; }
+        .contato-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px; text-align: center; }
+        .contato-card a { color: #fff; font-weight: 800; }
+
+        footer { background: #0b1220; color: #cbd5e1; text-align: center; padding: 24px 0; }
+
+        .whats { position: fixed; right: 18px; bottom: 18px; width: 54px; height: 54px; border-radius: 50%; background: #25d366; display: grid; place-items: center; font-size: 28px; color: #fff; box-shadow: 0 12px 32px rgba(0,0,0,0.25); z-index: 40; transition: transform 0.25s ease; }
+        .whats:hover { transform: scale(1.06); }
+
+        @media (max-width: 900px) { nav ul { display: none; } .hero .content, .sobre-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <a class="whats" href="https://wa.me/5543996243171" target="_blank">💬</a>
+
+    <nav>
+        <div class="container inner">
+            <div class="logo">🏠 Imobiliária</div>
+            <ul>
+                <li><a href="#home" class="nav-link active">Início</a></li>
+                <li><a href="#categorias" class="nav-link">Imóveis</a></li>
+                <li><a href="#sobre" class="nav-link">Sobre</a></li>
+                <li><a href="#contato" class="nav-link">Contato</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="container content">
+            <div>
+                <h1>Imóveis selecionados com transparência.</h1>
+                <p>Venda, compra e locação com curadoria, laudos e suporte jurídico dedicado.</p>
+                <div class="chips">
+                    <span class="chip">Residencial</span>
+                    <span class="chip">Comercial</span>
+                    <span class="chip">Investimento</span>
+                </div>
+                <div class="cta-row">
+                    <a class="btn btn-primary" href="https://wa.me/5543996243171" target="_blank">Falar agora</a>
+                    <a class="btn btn-ghost" href="#categorias">Ver portfólio</a>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="mini-grid">
+                    <div class="mini"><h3>Curadoria</h3><p>Seleção alinhada ao seu perfil.</p></div>
+                    <div class="mini"><h3>Vistoria</h3><p>Laudos e fotos profissionais.</p></div>
+                    <div class="mini"><h3>Financiamento</h3><p>Simulações e aprovação rápida.</p></div>
+                    <div class="mini"><h3>Documentos</h3><p>Due diligence e contratos claros.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="categorias">
+        <div class="container">
+            <div class="section-head">
+                <h2>Imóveis em destaque</h2>
+                <p>Opções selecionadas para cada necessidade.</p>
+            </div>
+            <div class="cards-3">
+                <div class="property">
+                    <img src="assets/images/chave%20na%20mao.jpg" alt="Chave na mão">
+                    <div class="body">
+                        <h3>Prontos para morar</h3>
+                        <p>Casas e apartamentos entregues com documentação em dia.</p>
+                    </div>
+                </div>
+                <div class="property">
+                    <img src="assets/images/apertando%20as%20maos.jpg" alt="Negócio fechado">
+                    <div class="body">
+                        <h3>Comerciais</h3>
+                        <p>Salas e galpões em áreas estratégicas para expansão.</p>
+                    </div>
+                </div>
+                <div class="property">
+                    <img src="assets/images/empilhando%20moeda.jpeg" alt="Investimento">
+                    <div class="body">
+                        <h3>Investimento</h3>
+                        <p>Oportunidades com alta liquidez e gestão de locação.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sobre" id="sobre">
+        <div class="container sobre-grid">
+            <div>
+                <img src="assets/images/casa%20na%20mao.jpg" alt="Imóvel">
+                <div class="grid" style="margin-top:12px; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));">
+                    <img src="assets/images/apertando%20as%20maos.jpg" alt="Equipe" style="border-radius:12px; border:1px solid rgba(14,165,233,0.12); box-shadow:0 10px 28px rgba(0,0,0,0.15); width:100%;">
+                    <img src="assets/images/chave%20na%20mao.jpg" alt="Entrega de chave" style="border-radius:12px; border:1px solid rgba(14,165,233,0.12); box-shadow:0 10px 28px rgba(0,0,0,0.15); width:100%;">
+                </div>
+            </div>
+            <div>
+                <div class="section-head" style="text-align:left; margin-bottom:10px;">
+                    <h2>Atuação completa</h2>
+                    <p>Equipe técnica, jurídica e comercial integrada.</p>
+                </div>
+                <p>Do tour ao contrato, conduzimos cada etapa com transparência, análise documental e apoio em financiamento. Relatórios claros e comunicação dedicada.</p>
+                <div class="stats">
+                    <div class="stat"><div class="number" data-count="420">0</div><div class="label">imóveis na carteira</div></div>
+                    <div class="stat"><div class="number" data-count="12">0</div><div class="label">anos de mercado</div></div>
+                    <div class="stat"><div class="number" data-count="96">0</div><div class="label">satisfação</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contato" id="contato">
+        <div class="container">
+            <div class="section-head">
+                <h2>Fale com a equipe</h2>
+                <p>Escolha o canal preferido.</p>
+            </div>
+            <div class="contato-grid">
+                <div class="contato-card"><p>WhatsApp</p><a href="https://wa.me/5543996243171" target="_blank">(43) 99624-3171</a></div>
+                <div class="contato-card"><p>E-mail</p><a href="mailto:mozza.techsh@gmail.com">mozza.techsh@gmail.com</a></div>
+                <div class="contato-card"><p>Horários</p><span>Seg-Sex 8h-18h | Sáb 8h-12h</span></div>
+            </div>
+            <div style="text-align:center; margin-top:18px;">
+                <a class="btn btn-primary" href="https://wa.me/5543996243171" target="_blank">Atendimento imediato</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 Imóveis | Mozza Tech</p>
+    </footer>
+
+    <script>
+        const navLinks = document.querySelectorAll('.nav-link');
+        const observed = [...navLinks].map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    const active = navLinks.find(l => l.getAttribute('href') === '#' + entry.target.id);
+                    if (active) active.classList.add('active');
+                }
+            });
+        }, { threshold: 0.5 });
+        observed.forEach(section => observer.observe(section));
+
+        const counters = document.querySelectorAll('[data-count]');
+        const runCounter = (el) => {
+            const target = parseInt(el.getAttribute('data-count'), 10);
+            let current = 0;
+            const step = Math.max(1, Math.floor(target / 120));
+            const tick = () => {
+                current += step;
+                if (current >= target) { el.textContent = target.toLocaleString('pt-BR') + (target < 100 ? '+' : ''); return; }
+                el.textContent = current.toLocaleString('pt-BR');
+                requestAnimationFrame(tick);
+            };
+            tick();
+        };
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    runCounter(entry.target);
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.6 });
+        counters.forEach(c => counterObserver.observe(c));
+    </script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador | Painel Fiscal e Financeiro</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #f6f9fc;
+            --panel: #ffffff;
+            --primary: #0b5bd3;
+            --accent: #0ea5e9;
+            --muted: #4b5563;
+            --line: rgba(14,165,233,0.14);
+        }
+        body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: #0f172a; line-height: 1.65; }
+        a { text-decoration: none; }
+        .container { max-width: 1160px; margin: 0 auto; padding: 0 20px; }
+
+        nav { position: sticky; top: 0; z-index: 30; background: #ffffffee; backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); box-shadow: 0 8px 26px rgba(14,165,233,0.08); }
+        nav .inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
+        nav .logo { display: flex; gap: 10px; align-items: center; font-weight: 800; color: var(--primary); letter-spacing: .4px; }
+        nav ul { list-style: none; display: flex; gap: 18px; }
+        nav a { color: var(--muted); font-weight: 700; padding: 8px 10px; border-radius: 10px; }
+        nav a.active, nav a:hover { background: var(--primary); color: #fff; }
+
+        .hero { position: relative; padding: 110px 0 100px; overflow: hidden; background: linear-gradient(130deg, #0b5bd3, #0ea5e9); color: #fff; }
+        .hero::after { content: ''; position: absolute; inset: 0; background: url('assets/images/contador%20analisando.jpg') center/cover no-repeat; opacity: 0.12; }
+        .hero .content { position: relative; z-index: 1; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 24px; align-items: center; }
+        .hero h1 { font-size: clamp(2.5rem, 4vw, 3.3rem); line-height: 1.1; margin-bottom: 14px; }
+        .hero p { color: #e0f2fe; margin-bottom: 18px; }
+        .chips { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+        .chip { background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.25); color: #fff; padding: 8px 12px; border-radius: 12px; font-weight: 700; }
+        .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 18px; border-radius: 12px; border: 1px solid transparent; font-weight: 800; cursor: pointer; }
+        .btn-primary { background: #fff; color: var(--primary); }
+        .btn-ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,0.5); }
+
+        .panel { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.22); border-radius: 16px; padding: 18px; backdrop-filter: blur(6px); }
+        .mini-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
+        .mini { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; padding: 12px; color: #fff; }
+        .mini h3 { color: #fff; margin-bottom: 4px; font-size: 1.05rem; }
+
+        section { padding: 80px 0; }
+        .section-head { text-align: center; margin-bottom: 22px; }
+        .section-head h2 { font-size: 2.05rem; color: #0f172a; }
+        .section-head p { color: var(--muted); }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+        .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px; box-shadow: 0 10px 28px rgba(0,0,0,0.06); transition: transform 0.2s ease; }
+        .card:hover { transform: translateY(-4px); }
+        .card h3 { color: var(--primary); margin-bottom: 6px; }
+        .card p { color: var(--muted); }
+
+        .sobre { background: linear-gradient(135deg, #eef5ff 0%, #ffffff 100%); }
+        .sobre-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
+        .sobre img { width: 100%; border-radius: 14px; border: 1px solid var(--line); box-shadow: 0 16px 40px rgba(0,0,0,0.08); }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 12px; margin-top: 12px; }
+        .stat { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 12px; text-align: center; }
+        .stat .number { font-size: 2rem; color: var(--primary); font-weight: 900; }
+        .stat .label { color: var(--muted); font-size: 0.95rem; }
+
+        .contato { background: #0f172a; color: #fff; }
+        .contato .section-head h2 { color: #fff; }
+        .contato .section-head p { color: #cbd5e1; }
+        .contato-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 14px; margin-top: 18px; }
+        .contato-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px; text-align: center; }
+        .contato-card a { color: #fff; font-weight: 800; }
+
+        footer { background: #0b1220; color: #cbd5e1; text-align: center; padding: 24px 0; }
+
+        .whats { position: fixed; right: 18px; bottom: 18px; width: 54px; height: 54px; border-radius: 50%; background: #25d366; display: grid; place-items: center; font-size: 28px; color: #fff; box-shadow: 0 12px 32px rgba(0,0,0,0.2); z-index: 40; transition: transform 0.25s ease; }
+        .whats:hover { transform: scale(1.06); }
+
+        @media (max-width: 900px) { nav ul { display: none; } .hero .content, .sobre-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <a class="whats" href="https://wa.me/5543996243171" target="_blank">💬</a>
+
+    <nav>
+        <div class="container inner">
+            <div class="logo">📊 Contador</div>
+            <ul>
+                <li><a href="#home" class="nav-link active">Início</a></li>
+                <li><a href="#servicos" class="nav-link">Serviços</a></li>
+                <li><a href="#sobre" class="nav-link">Equipe</a></li>
+                <li><a href="#contato" class="nav-link">Contato</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="container content">
+            <div>
+                <h1>Contador para fiscal, folha e financeiro no mesmo painel.</h1>
+                <p>Dashboards claros, documentos em dia e atendimento direto com o contador responsável.</p>
+                <div class="chips">
+                    <span class="chip">Fiscal e tributário</span>
+                    <span class="chip">Folha e DP</span>
+                    <span class="chip">BPO financeiro</span>
+                </div>
+                <div class="cta-row">
+                    <a class="btn btn-primary" href="https://wa.me/5543996243171" target="_blank">Falar com o contador</a>
+                    <a class="btn btn-ghost" href="#servicos">Ver serviços</a>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="mini-grid">
+                    <div class="mini"><h3>Onboarding guiado</h3><p>Mapeamos sistemas, prazos e rotinas.</p></div>
+                    <div class="mini"><h3>Agenda fiscal</h3><p>Tributos, guias e vencimentos organizados.</p></div>
+                    <div class="mini"><h3>Folha e DP</h3><p>Admissões, eSocial, férias e rescisões.</p></div>
+                    <div class="mini"><h3>Planejamento</h3><p>Simulações de regime e revisão tributária.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="servicos">
+        <div class="container">
+            <div class="section-head">
+                <h2>Serviços</h2>
+                <p>Pacotes modulares para empresas, prestadores e e-commerce.</p>
+            </div>
+            <div class="grid">
+                <div class="card"><h3>Fiscal</h3><p>Apuração, SPED, emissão de guias e obrigações acessórias no prazo.</p></div>
+                <div class="card"><h3>Contábil</h3><p>Escrituração, balanço, DRE e relatórios gerenciais em linguagem simples.</p></div>
+                <div class="card"><h3>Folha e DP</h3><p>Admissão digital, folha, benefícios, eSocial e gestão de afastamentos.</p></div>
+                <div class="card"><h3>BPO Financeiro</h3><p>Contas a pagar e receber, conciliação, fluxo de caixa e nota fiscal.</p></div>
+                <div class="card"><h3>Regularização</h3><p>Abertura, enquadramento, licenças e acompanhamento de órgãos.</p></div>
+                <div class="card"><h3>Planejamento</h3><p>Simulações de regime tributário e redução de riscos legais.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sobre" id="sobre">
+        <div class="container sobre-grid">
+            <div>
+                <img src="assets/images/contador%20calculadora.png" alt="Profissional de contabilidade">
+                <div class="grid" style="margin-top:12px; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));">
+                    <img src="assets/images/calculadora%20caneta.png" alt="Calculadora e caneta" style="border-radius:12px; border:1px solid var(--line); box-shadow:0 10px 26px rgba(0,0,0,0.08); width:100%;">
+                    <img src="assets/images/grafico%20de%20crescimento.webp" alt="Gráfico de crescimento" style="border-radius:12px; border:1px solid var(--line); box-shadow:0 10px 26px rgba(0,0,0,0.08); width:100%;">
+                </div>
+            </div>
+            <div>
+                <div class="section-head" style="text-align:left; margin-bottom:10px;">
+                    <h2>Time e operação</h2>
+                    <p>Especialistas em negócio, tecnologia e legislação.</p>
+                </div>
+                <p>Integramos ERPs, automatizamos rotinas e mantemos comunicação clara com sócios e times financeiros. Rituais mensais e entregas documentadas garantem previsibilidade.</p>
+                <div class="stats">
+                    <div class="stat"><div class="number" data-count="250">0</div><div class="label">clientes ativos</div></div>
+                    <div class="stat"><div class="number" data-count="18">0</div><div class="label">estados atendidos</div></div>
+                    <div class="stat"><div class="number" data-count="97">0</div><div class="label">satisfação</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contato" id="contato">
+        <div class="container">
+            <div class="section-head">
+                <h2>Fale com o contador</h2>
+                <p>Escolha o canal preferido.</p>
+            </div>
+            <div class="contato-grid">
+                <div class="contato-card"><p>WhatsApp</p><a href="https://wa.me/5543996243171" target="_blank">(43) 99624-3171</a></div>
+                <div class="contato-card"><p>E-mail</p><a href="mailto:mozza.techsh@gmail.com">mozza.techsh@gmail.com</a></div>
+                <div class="contato-card"><p>Horários</p><span>Seg-Sex 8h-18h | Sáb 8h-12h</span></div>
+            </div>
+            <div style="text-align:center; margin-top:18px;">
+                <a class="btn btn-primary" href="https://wa.me/5543996243171" target="_blank">Chamar agora</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 Contador | Mozza Tech</p>
+    </footer>
+
+    <script>
+        const navLinks = document.querySelectorAll('.nav-link');
+        const observed = [...navLinks].map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    const active = navLinks.find(l => l.getAttribute('href') === '#' + entry.target.id);
+                    if (active) active.classList.add('active');
+                }
+            });
+        }, { threshold: 0.5 });
+        observed.forEach(section => observer.observe(section));
+
+        const counters = document.querySelectorAll('[data-count]');
+        const runCounter = (el) => {
+            const target = parseInt(el.getAttribute('data-count'), 10);
+            let current = 0;
+            const step = Math.max(1, Math.floor(target / 120));
+            const tick = () => {
+                current += step;
+                if (current >= target) { el.textContent = target.toLocaleString('pt-BR') + (target < 100 ? '+' : ''); return; }
+                el.textContent = current.toLocaleString('pt-BR');
+                requestAnimationFrame(tick);
+            };
+            tick();
+        };
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    runCounter(entry.target);
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.6 });
+        counters.forEach(c => counterObserver.observe(c));
+    </script>
+</body>
+</html>

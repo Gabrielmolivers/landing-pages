@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prestador de Serviços</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0b0f1a;
+            --panel: #0f1626;
+            --primary: #f97316;
+            --secondary: #22c55e;
+            --text: #e2e8f0;
+            --muted: #cbd5e1;
+        }
+        body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        a { text-decoration: none; }
+        .container { max-width: 1160px; margin: 0 auto; padding: 0 20px; }
+
+        nav { position: sticky; top: 0; z-index: 30; background: rgba(11,15,26,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(249,115,22,0.15); }
+        nav .inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
+        nav .logo { display: flex; gap: 10px; align-items: center; font-weight: 800; color: var(--primary); letter-spacing: .4px; }
+        nav ul { list-style: none; display: flex; gap: 18px; }
+        nav a { color: var(--muted); font-weight: 700; padding: 8px 10px; border-radius: 8px; }
+        nav a.active, nav a:hover { background: var(--primary); color: #0b0f1a; }
+
+        .hero { position: relative; padding: 120px 0 110px; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 20% 20%, rgba(249,115,22,0.25), transparent 40%), radial-gradient(circle at 80% 15%, rgba(34,197,94,0.2), transparent 40%); }
+        .hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(11,15,26,0.4), rgba(11,15,26,0.85)), url('assets/images/profissional%201.png') center/cover no-repeat; opacity: 0.8; }
+        .hero .content { position: relative; z-index: 1; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 24px; align-items: center; }
+        .hero h1 { font-size: clamp(2.5rem, 4vw, 3.4rem); line-height: 1.1; margin-bottom: 14px; }
+        .hero p { color: var(--muted); margin-bottom: 18px; }
+        .chips { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+        .chip { background: rgba(15,22,38,0.75); border: 1px solid rgba(249,115,22,0.35); color: var(--text); padding: 8px 12px; border-radius: 12px; font-weight: 700; }
+        .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 18px; border-radius: 12px; border: 1px solid transparent; font-weight: 800; cursor: pointer; }
+        .btn-primary { background: var(--primary); color: #0b0f1a; }
+        .btn-ghost { background: transparent; color: var(--primary); border-color: rgba(249,115,22,0.35); }
+
+        .panel { background: rgba(15,22,38,0.9); border: 1px solid rgba(249,115,22,0.18); border-radius: 16px; padding: 18px; box-shadow: 0 18px 50px rgba(0,0,0,0.35); }
+        .mini-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
+        .mini { background: #0c121f; border: 1px solid rgba(249,115,22,0.1); border-radius: 12px; padding: 12px; }
+        .mini h3 { color: var(--primary); margin-bottom: 4px; font-size: 1.05rem; }
+        .mini p { color: var(--muted); font-size: 0.95rem; }
+
+        section { padding: 80px 0; }
+        .section-head { text-align: center; margin-bottom: 24px; }
+        .section-head h2 { font-size: 2rem; }
+        .section-head p { color: var(--muted); }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+        .card { background: var(--panel); border: 1px solid rgba(249,115,22,0.1); border-radius: 14px; padding: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); transition: transform 0.2s ease; }
+        .card:hover { transform: translateY(-6px); }
+        .card h3 { color: var(--primary); margin-bottom: 6px; }
+        .card p { color: var(--muted); }
+
+        .sobre { background: linear-gradient(135deg, #0c121f 0%, #10182a 100%); }
+        .sobre-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
+        .sobre img { width: 100%; border-radius: 14px; border: 1px solid rgba(249,115,22,0.12); box-shadow: 0 16px 40px rgba(0,0,0,0.35); }
+        .team { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 12px; margin-top: 12px; }
+        .member { text-align: center; background: #0c121f; border: 1px solid rgba(249,115,22,0.1); border-radius: 12px; padding: 12px; color: var(--muted); }
+        .member img { width: 100%; border-radius: 10px; height: 180px; object-fit: cover; margin-bottom: 8px; }
+
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 12px; margin-top: 12px; }
+        .stat { background: #0c121f; border: 1px solid rgba(249,115,22,0.12); border-radius: 12px; padding: 12px; text-align: center; }
+        .stat .number { font-size: 2rem; color: var(--secondary); font-weight: 900; }
+        .stat .label { color: var(--muted); font-size: 0.95rem; }
+
+        .contato { background: #0a0e18; border-top: 1px solid rgba(249,115,22,0.12); }
+        .contato-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 14px; margin-top: 18px; }
+        .contato-card { background: #0c121f; border: 1px solid rgba(249,115,22,0.12); border-radius: 12px; padding: 14px; text-align: center; }
+        .contato-card a { color: var(--primary); font-weight: 800; }
+
+        footer { background: #080b13; color: var(--muted); text-align: center; padding: 24px 0; }
+
+        .whats { position: fixed; right: 18px; bottom: 18px; width: 54px; height: 54px; border-radius: 50%; background: #25d366; display: grid; place-items: center; font-size: 28px; color: #fff; box-shadow: 0 12px 32px rgba(0,0,0,0.4); z-index: 40; transition: transform 0.25s ease; }
+        .whats:hover { transform: scale(1.06); }
+
+        @media (max-width: 900px) { nav ul { display: none; } .hero .content, .sobre-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <a class="whats" href="https://wa.me/5543996243171" target="_blank">💬</a>
+
+    <nav>
+        <div class="container inner">
+            <div class="logo">🛠️ Prestador</div>
+            <ul>
+                <li><a href="#home" class="nav-link active">Início</a></li>
+                <li><a href="#servicos" class="nav-link">Serviços</a></li>
+                <li><a href="#sobre" class="nav-link">Equipe</a></li>
+                <li><a href="#contato" class="nav-link">Contato</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="container content">
+            <div>
+                <h1>Serviços profissionais, entrega rápida.</h1>
+                <p>Equipe multidisciplinar para manutenção, instalações e reparos com SLA claro.</p>
+                <div class="chips">
+                    <span class="chip">Instalações</span>
+                    <span class="chip">Reformas leves</span>
+                    <span class="chip">Manutenção preventiva</span>
+                </div>
+                <div class="cta-row">
+                    <a class="btn btn-primary" href="https://wa.me/5543996243171" target="_blank">Chamar agora</a>
+                    <a class="btn btn-ghost" href="#servicos">Ver serviços</a>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="mini-grid">
+                    <div class="mini"><h3>Check-up</h3><p>Diagnóstico rápido e orçamento claro.</p></div>
+                    <div class="mini"><h3>Execução</h3><p>Equipe equipada para atender no local.</p></div>
+                    <div class="mini"><h3>Garantia</h3><p>Prazos e suporte pós-serviço.</p></div>
+                    <div class="mini"><h3>Monitoramento</h3><p>Plano preventivo para evitar paradas.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="servicos">
+        <div class="container">
+            <div class="section-head">
+                <h2>Serviços</h2>
+                <p>Portfólio enxuto para empresas e residências.</p>
+            </div>
+            <div class="grid">
+                <div class="card"><h3>Elétrica</h3><p>Painéis, iluminação e correção de carga.</p></div>
+                <div class="card"><h3>Hidráulica</h3><p>Instalação, vazamentos e aquecimento.</p></div>
+                <div class="card"><h3>Climatização</h3><p>Instalação e manutenção de ar-condicionado.</p></div>
+                <div class="card"><h3>Alvenaria leve</h3><p>Acabamentos, drywall e pintura.</p></div>
+                <div class="card"><h3>TI e redes</h3><p>Passagem de cabos, racks e organização.</p></div>
+                <div class="card"><h3>Planos preventivos</h3><p>Roteiros mensais para evitar paradas.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sobre" id="sobre">
+        <div class="container sobre-grid">
+            <div>
+                <img src="assets/images/profissional%202.jpg" alt="Profissional em serviço">
+                <div class="team">
+                    <div class="member">
+                        <img src="assets/images/profissional%203.jpg" alt="Profissional 3">
+                        <span>Técnico líder</span>
+                    </div>
+                    <div class="member">
+                        <img src="assets/images/profissional%204.jpg" alt="Profissional 4">
+                        <span>Supervisor de obras</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="section-head" style="text-align:left; margin-bottom:10px;">
+                    <h2>Time e método</h2>
+                    <p>Profissionais certificados e gestão visual.</p>
+                </div>
+                <p>Cada ordem de serviço segue checklist, fotos de evidência e assinatura digital. Atendimento com comunicação centralizada e priorização por criticidade.</p>
+                <div class="stats">
+                    <div class="stat"><div class="number" data-count="1200">0</div><div class="label">ordens concluídas</div></div>
+                    <div class="stat"><div class="number" data-count="8">0</div><div class="label">anos de operação</div></div>
+                    <div class="stat"><div class="number" data-count="95">0</div><div class="label">satisfação</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contato" id="contato">
+        <div class="container">
+            <div class="section-head">
+                <h2>Agende uma visita</h2>
+                <p>Escolha o canal preferido.</p>
+            </div>
+            <div class="contato-grid">
+                <div class="contato-card"><p>WhatsApp</p><a href="https://wa.me/5543996243171" target="_blank">(43) 99624-3171</a></div>
+                <div class="contato-card"><p>E-mail</p><a href="mailto:mozza.techsh@gmail.com">mozza.techsh@gmail.com</a></div>
+                <div class="contato-card"><p>Horários</p><span>Seg-Sex 8h-18h | Sáb 8h-12h</span></div>
+            </div>
+            <div style="text-align:center; margin-top:18px;">
+                <a class="btn btn-primary" href="https://wa.me/5543996243171" target="_blank">Chamar agora</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 Prestador de Serviços | Mozza Tech</p>
+    </footer>
+
+    <script>
+        const navLinks = document.querySelectorAll('.nav-link');
+        const observed = [...navLinks].map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    const active = navLinks.find(l => l.getAttribute('href') === '#' + entry.target.id);
+                    if (active) active.classList.add('active');
+                }
+            });
+        }, { threshold: 0.5 });
+        observed.forEach(section => observer.observe(section));
+
+        const counters = document.querySelectorAll('[data-count]');
+        const runCounter = (el) => {
+            const target = parseInt(el.getAttribute('data-count'), 10);
+            let current = 0;
+            const step = Math.max(1, Math.floor(target / 120));
+            const tick = () => {
+                current += step;
+                if (current >= target) { el.textContent = target.toLocaleString('pt-BR') + (target < 100 ? '+' : ''); return; }
+                el.textContent = current.toLocaleString('pt-BR');
+                requestAnimationFrame(tick);
+            };
+            tick();
+        };
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    runCounter(entry.target);
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.6 });
+        counters.forEach(c => counterObserver.observe(c));
+    </script>
+</body>
+</html>

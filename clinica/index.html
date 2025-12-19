@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clínica Popular | Saúde acessível</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #f7fbfd;
+            --primary: #0ea5e9;
+            --secondary: #0f766e;
+            --text: #0f172a;
+            --muted: #475569;
+        }
+        body { font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        a { text-decoration: none; }
+        .container { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+
+        nav { position: sticky; top: 0; z-index: 20; background: #ffffffee; backdrop-filter: blur(8px); box-shadow: 0 6px 25px rgba(15,118,110,0.08); }
+        nav .inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
+        nav .logo { display: flex; gap: 10px; align-items: center; font-weight: 800; color: var(--text); font-size: 1.1rem; }
+        nav ul { list-style: none; display: flex; gap: 20px; }
+        nav a { color: var(--muted); font-weight: 700; }
+        nav a:hover, nav a.active { color: var(--primary); }
+
+        .hero { background: linear-gradient(135deg, rgba(14,165,233,0.1), rgba(15,118,110,0.08)), url('assets/images/medico.jpg') center/cover no-repeat; padding: 120px 0 110px; position: relative; overflow: hidden; }
+        .hero::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 20% 20%, rgba(14,165,233,0.25), transparent 40%); }
+        .hero .content { position: relative; z-index: 1; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 30px; align-items: center; }
+        .hero h1 { font-size: clamp(2.4rem, 4vw, 3.3rem); color: #0f172a; margin-bottom: 16px; }
+        .hero p { color: #0f172a; opacity: 0.85; margin-bottom: 20px; }
+        .hero .badges { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+        .badge { background: #fff; border: 1px solid rgba(14,165,233,0.25); color: #0f172a; padding: 8px 12px; border-radius: 10px; font-weight: 700; }
+        .hero .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 12px; font-weight: 800; border: 0; cursor: pointer; }
+        .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 10px 30px rgba(14,165,233,0.3); }
+        .btn-ghost { background: #fff; color: var(--primary); border: 1px solid rgba(14,165,233,0.3); }
+
+        .hero .card { background: #fff; border-radius: 16px; box-shadow: 0 12px 40px rgba(0,0,0,0.08); padding: 18px; border: 1px solid rgba(14,165,233,0.08); }
+        .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .mini { background: #f8fafc; border-radius: 12px; padding: 12px; border: 1px solid rgba(14,165,233,0.05); }
+        .mini h3 { color: var(--secondary); margin-bottom: 4px; font-size: 1rem; }
+        .mini p { color: var(--muted); font-size: 0.95rem; }
+
+        section { padding: 80px 0; }
+        .section-head { text-align: center; margin-bottom: 24px; }
+        .section-head h2 { font-size: 2rem; color: #0f172a; }
+        .section-head p { color: var(--muted); }
+
+        .especialidades-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 24px; }
+        .especialidade-card { background: #fff; border-radius: 14px; padding: 18px; border: 1px solid rgba(14,165,233,0.1); box-shadow: 0 8px 25px rgba(0,0,0,0.05); transition: transform 0.25s ease; }
+        .especialidade-card:hover { transform: translateY(-6px); }
+        .especialidade-card h3 { color: var(--secondary); margin-bottom: 6px; }
+        .especialidade-card p { color: var(--muted); }
+
+        .diferenciais { background: #fff; }
+        .dif-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 16px; margin-top: 20px; }
+        .dif-card { background: #f8fafc; border: 1px solid rgba(14,165,233,0.08); border-radius: 12px; padding: 16px; text-align: left; }
+        .dif-card strong { color: var(--secondary); display: block; margin-bottom: 4px; }
+
+        .sobre { background: linear-gradient(135deg, #e0f2fe 0%, #ecfeff 100%); }
+        .sobre-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; }
+        .sobre img { width: 100%; border-radius: 16px; box-shadow: 0 12px 35px rgba(0,0,0,0.12); border: 1px solid rgba(14,165,233,0.15); }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 14px; margin-top: 12px; }
+        .stat { background: #fff; border: 1px solid rgba(14,165,233,0.1); border-radius: 12px; padding: 12px; text-align: center; }
+        .stat .number { font-size: 2rem; color: var(--primary); font-weight: 800; }
+        .stat .label { color: var(--muted); }
+
+        .galeria { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 16px; }
+        .galeria img { width: 100%; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); border: 1px solid rgba(14,165,233,0.08); }
+
+        .contato { background: #0f172a; color: #fff; }
+        .contato .section-head h2 { color: #fff; }
+        .contato .section-head p { color: #cbd5e1; }
+        .contato-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 16px; margin-top: 20px; }
+        .contato-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; text-align: center; }
+        .contato-card a { color: #fff; font-weight: 800; }
+
+        footer { background: #0b1224; color: #cbd5e1; padding: 24px 0; text-align: center; }
+
+        .floating-whats { position: fixed; right: 20px; bottom: 20px; width: 56px; height: 56px; background: #25d366; border-radius: 50%; color: #fff; display: grid; place-items: center; font-size: 28px; box-shadow: 0 12px 32px rgba(0,0,0,0.25); z-index: 40; transition: transform 0.25s ease; }
+        .floating-whats:hover { transform: scale(1.07); }
+
+        @media (max-width: 900px) { nav ul { display: none; } .hero .content, .sobre-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <a class="floating-whats" href="https://wa.me/5543996243171" target="_blank">💬</a>
+
+    <nav>
+        <div class="container inner">
+            <div class="logo">🏥 Clínica Popular</div>
+            <ul>
+                <li><a href="#home" class="nav-link active">Início</a></li>
+                <li><a href="#especialidades" class="nav-link">Especialidades</a></li>
+                <li><a href="#sobre" class="nav-link">Sobre</a></li>
+                <li><a href="#contato" class="nav-link">Contato</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="container content">
+            <div>
+                <h1>Saúde acessível, rápida e confiável.</h1>
+                <p>Agende consultas e exames com especialistas. Atendimento humanizado, tecnologia e processos simples do agendamento ao resultado.</p>
+                <div class="badges">
+                    <span class="badge">Agendamento imediato</span>
+                    <span class="badge">+15 especialidades</span>
+                    <span class="badge">Sem mensalidade</span>
+                </div>
+                <div class="cta-row">
+                    <a class="btn btn-primary" href="https://wa.me/5543996243171" target="_blank">Agendar por WhatsApp</a>
+                    <a class="btn btn-ghost" href="#especialidades">Ver especialidades</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-grid">
+                    <div class="mini">
+                        <h3>Clínica Geral</h3>
+                        <p>Consultas no mesmo dia.</p>
+                    </div>
+                    <div class="mini">
+                        <h3>Exames</h3>
+                        <p>Laboratoriais e imagem.</p>
+                    </div>
+                    <div class="mini">
+                        <h3>Telemedicina</h3>
+                        <p>Orientação rápida.</p>
+                    </div>
+                    <div class="mini">
+                        <h3>Planos família</h3>
+                        <p>Mais economia para todos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="especialidades">
+        <div class="container">
+            <div class="section-head">
+                <h2>Especialidades</h2>
+                <p>Fluxo ágil para consultas, exames e telemedicina.</p>
+            </div>
+            <div class="especialidades-grid">
+                <div class="especialidade-card"><h3>Clínica Geral</h3><p>Consulta de triagem e acompanhamento.</p></div>
+                <div class="especialidade-card"><h3>Cardiologia</h3><p>Check-up cardíaco completo.</p></div>
+                <div class="especialidade-card"><h3>Pediatria</h3><p>Cuidado dedicado para crianças.</p></div>
+                <div class="especialidade-card"><h3>Ginecologia</h3><p>Saúde da mulher com equipe especializada.</p></div>
+                <div class="especialidade-card"><h3>Dermatologia</h3><p>Procedimentos clínicos e estéticos.</p></div>
+                <div class="especialidade-card"><h3>Ortopedia</h3><p>Mobilidade, lesões e reabilitação.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="diferenciais">
+        <div class="container">
+            <div class="section-head">
+                <h2>Diferenciais</h2>
+                <p>Experiência desenhada para reduzir espera e manter o paciente no centro.</p>
+            </div>
+            <div class="dif-grid">
+                <div class="dif-card"><strong>Agenda online</strong><span>Escolha data e horário no WhatsApp.</span></div>
+                <div class="dif-card"><strong>Valores acessíveis</strong><span>Transparência total em consultas e exames.</span></div>
+                <div class="dif-card"><strong>Rede de parceiros</strong><span>Clínicas e laboratórios selecionados.</span></div>
+                <div class="dif-card"><strong>Recordatórios</strong><span>Lembretes automáticos de consulta.</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sobre" id="sobre">
+        <div class="container sobre-grid">
+            <div>
+                <img src="assets/images/recepcao.png" alt="Recepção da clínica">
+                <div class="galeria">
+                    <img src="assets/images/enfermeira.webp" alt="Enfermeira">
+                    <img src="assets/images/aparelhos.png" alt="Equipamentos">
+                    <img src="assets/images/recepcao.png" alt="Recepção da clínica">
+                </div>
+            </div>
+            <div>
+                <div class="section-head" style="text-align:left; margin-bottom:10px;">
+                    <h2>Sobre a clínica</h2>
+                    <p>Atendimento humanizado, preços acessíveis e comunicação contínua.</p>
+                </div>
+                <p>Funcionamos com protocolos digitais de pré-consulta, atendimento ágil e comunicação contínua. Equipe multidisciplinar e infraestrutura preparada para receber você.</p>
+                <div class="stats">
+                    <div class="stat"><div class="number" data-count="15">0</div><div class="label">especialidades</div></div>
+                    <div class="stat"><div class="number" data-count="12000">0</div><div class="label">pacientes atendidos</div></div>
+                    <div class="stat"><div class="number" data-count="93">0</div><div class="label">satisfação</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contato" id="contato">
+        <div class="container">
+            <div class="section-head">
+                <h2>Agende agora</h2>
+                <p>Escolha o canal preferido.</p>
+            </div>
+            <div class="contato-grid">
+                <div class="contato-card">
+                    <p>WhatsApp</p>
+                    <a href="https://wa.me/5543996243171" target="_blank">(43) 99624-3171</a>
+                </div>
+                <div class="contato-card">
+                    <p>E-mail</p>
+                    <a href="mailto:mozza.techsh@gmail.com">mozza.techsh@gmail.com</a>
+                </div>
+                <div class="contato-card">
+                    <p>Horário</p>
+                    <span>Seg-Sex 8h-18h | Sáb 8h-12h</span>
+                </div>
+            </div>
+            <div style="text-align:center; margin-top:24px;">
+                <a class="btn btn-primary" href="https://wa.me/5543996243171" target="_blank">Agendar via WhatsApp</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 Clínica Popular | Mozza Tech</p>
+    </footer>
+
+    <script>
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = [...navLinks].map(l => document.querySelector(l.getAttribute('href')));
+        const navObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    const active = navLinks.find(l => l.getAttribute('href') === '#' + entry.target.id);
+                    if (active) active.classList.add('active');
+                }
+            });
+        }, { threshold: 0.5 });
+        sections.forEach(sec => sec && navObserver.observe(sec));
+
+        const counters = document.querySelectorAll('[data-count]');
+        const runCounter = (el) => {
+            const target = parseInt(el.getAttribute('data-count'), 10);
+            let current = 0;
+            const step = Math.max(1, Math.floor(target / 120));
+            const tick = () => {
+                current += step;
+                if (current >= target) { el.textContent = target.toLocaleString('pt-BR') + (target < 100 ? '+' : ''); return; }
+                el.textContent = current.toLocaleString('pt-BR');
+                requestAnimationFrame(tick);
+            };
+            tick();
+        };
+        const countObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    runCounter(entry.target);
+                    countObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.6 });
+        counters.forEach(c => countObserver.observe(c));
+    </script>
+</body>
+</html>

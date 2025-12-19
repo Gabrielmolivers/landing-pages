@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Landing Pages | Mozza Tech</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #0b1021;
+            --card: #0f172a;
+            --accent: #6ee7ff;
+            --accent-2: #7c3aed;
+            --text: #e2e8f0;
+            --muted: #94a3b8;
+            --gradient: linear-gradient(135deg, #0ea5e9 0%, #7c3aed 55%, #a855f7 100%);
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at 20% 20%, rgba(14,165,233,0.25), transparent 35%),
+                        radial-gradient(circle at 80% 0%, rgba(124,58,237,0.25), transparent 30%),
+                        var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 1400px; margin: 0 auto; }
+
+        header {
+            padding: 60px 20px 30px;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .headline h1 {
+            font-size: clamp(2.4rem, 4vw, 3.5rem);
+            line-height: 1.1;
+            margin-bottom: 15px;
+        }
+
+        .headline h1 span { color: var(--accent); }
+
+        .headline p {
+            color: var(--muted);
+            font-size: 1.1rem;
+            max-width: 620px;
+            margin-bottom: 25px;
+        }
+
+        .chips {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            padding: 10px 16px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.07);
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .hero-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 80px rgba(0,0,0,0.35);
+        }
+
+        .hero-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(110,231,255,0.25), transparent 40%),
+                        radial-gradient(circle at 80% 60%, rgba(124,58,237,0.28), transparent 45%);
+            opacity: 0.9;
+        }
+
+        .hero-card-inner { position: relative; z-index: 1; }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0,1fr));
+            gap: 14px;
+        }
+
+        .mini-card {
+            background: rgba(15,23,42,0.7);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 14px 16px;
+        }
+
+        .mini-card h3 { font-size: 1rem; margin-bottom: 6px; color: var(--accent); }
+        .mini-card p { color: var(--muted); font-size: 0.95rem; line-height: 1.5; }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            padding: 20px 0 60px;
+        }
+
+        .portfolio-card {
+            background: var(--card);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(110,231,255,0.35);
+            box-shadow: 0 22px 55px rgba(0,0,0,0.35);
+        }
+
+        .card-thumb {
+            height: 190px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .card-thumb::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,0.5) 100%);
+        }
+
+        .card-label {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: rgba(0,0,0,0.45);
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.9rem;
+            z-index: 1;
+        }
+
+        .card-body { padding: 20px; }
+        .card-body h2 { font-size: 1.35rem; margin-bottom: 10px; color: #fff; }
+        .card-body p { color: var(--muted); margin-bottom: 14px; }
+
+        .tag-list { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+        .tag { padding: 6px 10px; border-radius: 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: #cbd5e1; font-size: 0.9rem; }
+
+        .btn-row { display: flex; gap: 10px; }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gradient);
+            color: #0b1021;
+            padding: 10px 18px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            border: 0;
+            box-shadow: 0 10px 30px rgba(126,34,206,0.35);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(126,34,206,0.4); }
+
+        footer {
+            text-align: center;
+            color: var(--muted);
+            padding: 40px 20px 20px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .floating-whats {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: #25d366;
+            color: white;
+            display: grid;
+            place-items: center;
+            font-size: 30px;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.35);
+            text-decoration: none;
+            transition: transform 0.3s ease;
+            z-index: 10;
+        }
+
+        .floating-whats:hover { transform: scale(1.08); }
+
+        @media (max-width: 980px) { header { grid-template-columns: 1fr; } }
+        @media (max-width: 640px) {
+            body { padding: 16px; }
+            .portfolio-grid { grid-template-columns: 1fr; }
+            header { padding: 40px 10px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <a class="floating-whats" href="https://wa.me/5543996243171" target="_blank" aria-label="WhatsApp">
+        💬
+    </a>
+
+    <div class="container">
+        <header>
+            <div class="headline">
+                <h1>Catálogo <span>Mozza Tech</span> de landing pages sob medida.</h1>
+                <p>Experiências digitais otimizadas para conversão, com visual moderno, copy direcionada e navegação fluida. Clique e explore cada segmento.</p>
+                <div class="chips">
+                    <span class="chip">UI moderna</span>
+                    <span class="chip">Performance</span>
+                    <span class="chip">SEO friendly</span>
+                    <span class="chip">Responsive</span>
+                </div>
+            </div>
+            <div class="hero-card">
+                <div class="hero-card-inner">
+                    <p style="color: var(--muted); margin-bottom: 12px; font-weight: 600;">Destaques rápidos</p>
+                    <div class="hero-grid">
+                        <div class="mini-card">
+                            <h3>6 segmentos</h3>
+                            <p>Layouts exclusivos inspirados em referências reais.</p>
+                        </div>
+                        <div class="mini-card">
+                            <h3>Contato imediato</h3>
+                            <p>CTA direto para WhatsApp e e-mail em todas as páginas.</p>
+                        </div>
+                        <div class="mini-card">
+                            <h3>Imagens curadas</h3>
+                            <p>Uso das imagens otimizadas.</p>
+                        </div>
+                        <div class="mini-card">
+                            <h3>JS de interação</h3>
+                            <p>Smooth scroll, animações e destaques dinâmicos.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="portfolio-grid" id="portfolio">
+            <div class="portfolio-card" data-link="advocacia/index.html">
+                <div class="card-thumb" style="background-image: url('advocacia/assets/images/advogada.webp');">
+                    <span class="card-label">Advocacia</span>
+                </div>
+                <div class="card-body">
+                    <h2>Escritório de Advocacia</h2>
+                    <p>Visual com confiança, autoridade e clareza nas áreas de atuação.</p>
+                    <div class="tag-list">
+                        <span class="tag">Áreas de atuação</span>
+                        <span class="tag">Prova social</span>
+                        <span class="tag">CTA direto</span>
+                    </div>
+                    <div class="btn-row">
+                        <a class="btn" href="advocacia/index.html">Ver página →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portfolio-card" data-link="clinica/index.html">
+                <div class="card-thumb" style="background-image: url('clinica/assets/images/medico.jpg');">
+                    <span class="card-label">Clínica</span>
+                </div>
+                <div class="card-body">
+                    <h2>Clínica Médica</h2>
+                    <p>Agendamento rápido, especialidades e credibilidade com equipe.</p>
+                    <div class="tag-list">
+                        <span class="tag">Especialidades</span>
+                        <span class="tag">Agende já</span>
+                        <span class="tag">UX clean</span>
+                    </div>
+                    <div class="btn-row">
+                        <a class="btn" href="clinica/index.html">Ver página →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portfolio-card" data-link="consultorio/index.html">
+                <div class="card-thumb" style="background-image: url('consultorio/assets/images/medica%20e%20paciente.jpg');">
+                    <span class="card-label">Consultório</span>
+                </div>
+                <div class="card-body">
+                    <h2>Consultório</h2>
+                    <p>Estética premium, tratamentos e diferenciais claros.</p>
+                    <div class="tag-list">
+                        <span class="tag">Odonto/saúde</span>
+                        <span class="tag">Planos</span>
+                        <span class="tag">CTA múltiplo</span>
+                    </div>
+                    <div class="btn-row">
+                        <a class="btn" href="consultorio/index.html">Ver página →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portfolio-card" data-link="contabilidade/index.html">
+                <div class="card-thumb" style="background-image: url('contabilidade/assets/images/contador%20analisando.jpg');">
+                    <span class="card-label">Contabilidade</span>
+                </div>
+                <div class="card-body">
+                    <h2>Contador</h2>
+                    <p>Foco em consultoria, eficiência e relacionamento próximo.</p>
+                    <div class="tag-list">
+                        <span class="tag">Planejamento</span>
+                        <span class="tag">BPO</span>
+                        <span class="tag">Formalização</span>
+                    </div>
+                    <div class="btn-row">
+                        <a class="btn" href="contabilidade/index.html">Ver página →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portfolio-card" data-link="imobiliaria/index.html">
+                <div class="card-thumb" style="background-image: url('imobiliaria/assets/images/chave%20na%20mao.jpg');">
+                    <span class="card-label">Imobiliária</span>
+                </div>
+                <div class="card-body">
+                    <h2>Imobiliária</h2>
+                    <p>Destaques, vitrines e CTA para visitas.</p>
+                    <div class="tag-list">
+                        <span class="tag">Catálogo</span>
+                        <span class="tag">Visitas</span>
+                        <span class="tag">Financiamento</span>
+                    </div>
+                    <div class="btn-row">
+                        <a class="btn" href="imobiliaria/index.html">Ver página →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portfolio-card" data-link="prestador-servico/index.html">
+                <div class="card-thumb" style="background-image: url('prestador-servico/assets/images/profissional%201.png');">
+                    <span class="card-label">Prestador</span>
+                </div>
+                <div class="card-body">
+                    <h2>Prestador de Serviços</h2>
+                    <p>Layout enxuto, catálogo de serviços e contato rápido. Mantido como referência final.</p>
+                    <div class="tag-list">
+                        <span class="tag">Orçamento</span>
+                        <span class="tag">Manutenção</span>
+                        <span class="tag">Equipe</span>
+                    </div>
+                    <div class="btn-row">
+                        <a class="btn" href="prestador-servico/index.html">Ver página →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Pronto para lançar? Fale no WhatsApp (43) 99624-3171 ou envie para mozza.techsh@gmail.com</p>
+            <p>© 2025 Mozza Tech</p>
+        </footer>
+    </div>
+
+    <script>
+        const cards = document.querySelectorAll('.portfolio-card');
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                const link = card.getAttribute('data-link');
+                if (link) window.location.href = link;
+            });
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.style.opacity = '1';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.portfolio-card').forEach(el => {
+            el.style.transform = 'translateY(20px)';
+            el.style.opacity = '0';
+            el.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
